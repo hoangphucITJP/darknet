@@ -31,6 +31,8 @@ from ctypes import *
 import math
 import random
 import os
+from pathlib import Path
+
 
 def sample(probs):
     s = sum(probs)
@@ -121,7 +123,9 @@ if os.name == "nt":
             lib = CDLL(winGPUdll, RTLD_GLOBAL)
             print("Environment variables indicated a CPU run, but we didn't find `"+winNoGPUdll+"`. Trying a GPU run anyway.")
 else:
-    lib = CDLL("./libdarknet.so", RTLD_GLOBAL)
+    module_dir = Path(__file__).parent
+    so_path = os.path.join(module_dir, 'libdarknet.so')
+    lib = CDLL(so_path, RTLD_GLOBAL)
 lib.network_width.argtypes = [c_void_p]
 lib.network_width.restype = c_int
 lib.network_height.argtypes = [c_void_p]
