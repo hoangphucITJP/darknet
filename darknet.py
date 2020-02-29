@@ -124,8 +124,10 @@ if os.name == "nt":
             print("Environment variables indicated a CPU run, but we didn't find `"+winNoGPUdll+"`. Trying a GPU run anyway.")
 else:
     module_dir = Path(__file__).parent
-    so_path = os.path.join(module_dir, 'libdarknet.so')
+    use_cpu = os.environ["FORCE_CPU"].lower() in ["1", "true", "yes", "on"]
+    so_path = os.path.join(module_dir, f'libdarknet_{"cpu" if use_cpu else "gpu"}.so')
     lib = CDLL(so_path, RTLD_GLOBAL)
+
 lib.network_width.argtypes = [c_void_p]
 lib.network_width.restype = c_int
 lib.network_height.argtypes = [c_void_p]
