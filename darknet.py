@@ -240,7 +240,7 @@ def classify(net, meta, im):
     res = sorted(res, key=lambda x: -x[1])
     return res
 
-def detect(net, meta, image, thresh=.5, hier_thresh=.5, nms=.45, debug= False):
+def detect(net, meta, image, thresh=.5, hier_thresh=.5, nms=.1, debug= False):
     """
     Performs the meat of the detection
     """
